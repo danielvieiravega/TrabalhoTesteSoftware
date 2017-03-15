@@ -4,6 +4,14 @@ namespace TrabalhoTesteSoftware
 {
     public class Sensor : ISensor
     {
+        public bool IsEnabled { get; set; }
+
+        public Sensor()
+        {
+            IsEnabled = false;
+
+        }
+
         public bool getAlert()
         {
             throw new NotImplementedException();

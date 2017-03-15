@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TrabalhoTesteSoftware
+﻿namespace TrabalhoTesteSoftware
 {
-    interface IControle
+    public interface IControle
     {
         bool enable();
         bool disable();
