@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Controle.cs" />
     <Compile Include="IControle.cs" />
+    <Compile Include="Infrastructure.cs" />
     <Compile Include="ISensor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
