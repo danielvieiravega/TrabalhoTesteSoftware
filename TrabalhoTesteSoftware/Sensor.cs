@@ -5,13 +5,14 @@ namespace TrabalhoTesteSoftware
     public class Sensor : ISensor
     {
         public bool IsEnabled { get; private set; }
-        public float Reliability { get; set; }
-        public float EnvironmentParameter { get; set; }
+        public float Reliability { get; private set; }
+        public float EnvironmentParameter { get; private set; }
+        public Type_Sensor TypeSensor { get; private set; }
 
-        public Sensor()
+        public Sensor(Type_Sensor typeSensor)
         {
+            TypeSensor = typeSensor;
             IsEnabled = false;
-
         }
 
         public bool getAlert()
@@ -84,7 +85,7 @@ namespace TrabalhoTesteSoftware
                 Reliability = r;
             }
         }
-
+        
         /// <summary>
         /// atribui o valor v ao parâmetro controlado pelo sensor (temperatura ou pressão) e retorna true.
         ///     o Se o valor for maior que o limite especificado(40 para temperatura e
@@ -101,7 +102,18 @@ namespace TrabalhoTesteSoftware
         /// <returns></returns>
         public bool setValue(float v)
         {
-            
+            bool result = false;
+            switch (TypeSensor)
+            {
+                case Type_Sensor.Temperature:
+                    break;
+                case Type_Sensor.Pressure:
+                    break;
+                default:
+                    break;
+            }
+
+            return result;
         }
     }
 }
