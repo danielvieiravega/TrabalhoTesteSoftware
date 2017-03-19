@@ -2,6 +2,11 @@
 {
     public class Valvula
     {
-        public bool Enabled { get; set; }
+        public EstadoValvula Estado { get; set; }
+
+        public Valvula()
+        {
+                Estado = EstadoValvula.Fechado;
+        }
     }
 }

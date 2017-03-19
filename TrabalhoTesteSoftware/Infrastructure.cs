@@ -15,6 +15,13 @@
     public enum Estado
     {
         Desativado,
-        Alerta
+        Alerta,
+        Operacao
+    }
+
+    public enum EstadoValvula
+    {
+        Aberto,
+        Fechado
     }
 }

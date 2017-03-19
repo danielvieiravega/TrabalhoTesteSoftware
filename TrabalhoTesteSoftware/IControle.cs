@@ -4,10 +4,10 @@
     {
         bool enable();
         bool disable();
-        void alert(ISensor n);
-        void reset(ISensor n);
-        void open(ISensor n);
-        void close(ISensor n);
-        bool getV(ISensor n);
+        void alert(TypeSensor n);
+        void reset(TypeSensor n);
+        void open(Sensor n);
+        void close(Sensor n);
+        bool getV(Sensor n);
     }
 }

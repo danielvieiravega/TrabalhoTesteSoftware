@@ -6,7 +6,7 @@ namespace TrabalhoTesteSoftware
     {
         public Controle Controle  { get; private set; }
         public bool IsEnabled { get; private set; }
-        public float Reliability { get; private set; }
+        public float Confiabilidade { get; private set; }
         public float EnvironmentParameter { get; private set; }
         public TypeSensor TypeSensor { get; private set; }
         public Valvula Valvula { get; set; }
@@ -65,7 +65,7 @@ namespace TrabalhoTesteSoftware
         /// <returns></returns>
         public float getR()
         {
-            return Reliability;
+            return Confiabilidade;
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace TrabalhoTesteSoftware
         {
             if ((r>0) && (r<=1))
             {
-                Reliability = r;
+                Confiabilidade = r;
             }
         }
         
@@ -131,6 +131,7 @@ namespace TrabalhoTesteSoftware
         /// <returns></returns>
         public bool setValue(float v)
         {
+            //TODO: O que significa ser calibrado pela confiablidade???
             var result = false;
             EnvironmentParameter = v;
 
@@ -139,7 +140,7 @@ namespace TrabalhoTesteSoftware
                 if (!getAlert())
                 {
                     Controle.Estado = Estado.Alerta;
-                    Controle.alert(this);
+                    Controle.alert(this.TypeSensor);
                 }
             }
             else if (v < CheckMaxParameterValue())
@@ -147,7 +148,7 @@ namespace TrabalhoTesteSoftware
                 if (getAlert())
                 {
                     Controle.Estado = Estado.Desativado;
-                    Controle.alert(this);
+                    Controle.alert(this.TypeSensor);
                 }
             }
             else
