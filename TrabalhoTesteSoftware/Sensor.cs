@@ -4,20 +4,50 @@ namespace TrabalhoTesteSoftware
 {
     public class Sensor : ISensor
     {
+        public Controle Controle  { get; private set; }
         public bool IsEnabled { get; private set; }
         public float Reliability { get; private set; }
         public float EnvironmentParameter { get; private set; }
-        public Type_Sensor TypeSensor { get; private set; }
+        public TypeSensor TypeSensor { get; private set; }
+        public Valvula Valvula { get; set; }
+        public bool InAlert { get; set; }
 
-        public Sensor(Type_Sensor typeSensor)
+        private int GenerateRandomParameter()
         {
-            TypeSensor = typeSensor;
-            IsEnabled = false;
+            var result = 0;
+            switch (TypeSensor)
+            {
+                case TypeSensor.Temperature:
+                    result = new Random().Next(Constants.MaxTemperatureValue);
+                    break;
+
+                case TypeSensor.Pressure:
+                    result = new Random().Next(Constants.MaxPressureValure);
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            return result;
         }
 
+        public Sensor(TypeSensor typeSensor, Controle controle)
+        {
+            TypeSensor = typeSensor;
+            Controle = controle;
+            IsEnabled = false;
+            EnvironmentParameter = GenerateRandomParameter();
+
+        }
+
+        /// <summary>
+        /// Retorna true se o sensor está alerta e false caso contrário.
+        /// </summary>
+        /// <returns></returns>
         public bool getAlert()
         {
-            throw new NotImplementedException();
+            return true && (Controle.Estado == Estado.Alerta);
         }
 
         /// <summary>
@@ -28,7 +58,6 @@ namespace TrabalhoTesteSoftware
         {
             return IsEnabled;
         }
-
 
         /// <summary>
         /// – retorna a confiabilidade do sensor. 
@@ -102,18 +131,36 @@ namespace TrabalhoTesteSoftware
         /// <returns></returns>
         public bool setValue(float v)
         {
-            bool result = false;
-            switch (TypeSensor)
+            var result = false;
+            EnvironmentParameter = v;
+
+            if (v > CheckMaxParameterValue())
             {
-                case Type_Sensor.Temperature:
-                    break;
-                case Type_Sensor.Pressure:
-                    break;
-                default:
-                    break;
+                if (!getAlert())
+                {
+                    Controle.Estado = Estado.Alerta;
+                    Controle.alert(this);
+                }
+            }
+            else if (v < CheckMaxParameterValue())
+            {
+                if (getAlert())
+                {
+                    Controle.Estado = Estado.Desativado;
+                    Controle.alert(this);
+                }
+            }
+            else
+            {
+                result = true;
             }
 
             return result;
+        }
+
+        private int CheckMaxParameterValue()
+        {
+            return TypeSensor == TypeSensor.Temperature? Constants.MaxTemperatureValue : Constants.MaxPressureValure;
         }
     }
 }

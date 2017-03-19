@@ -5,50 +5,34 @@ namespace TrabalhoTesteSoftware
     public class Controle : IControle
     {
         #region private variables
-        ISensor _temperatureSensor;
-        ISensor _pressureSensor;
-        #endregion
-
-        #region public properties
-        public ISensor TemperatureSensor
-        {
-            get
-            {
-                return _temperatureSensor;
-            }
-            set
-            {
-                _temperatureSensor = value;
-            }
-        }
-        public ISensor PressureSensor
-        {
-            get
-            {
-                return _pressureSensor;
-            }
-            set
-            {
-                _pressureSensor = value;
-            }
-        }
+        public ISensor TemperatureSensor { get; }
+        public ISensor PressureSensor { get; }
+        public Estado Estado { get; set; }
         #endregion
 
         #region constructor
-        public Controle( ISensor tSensor, ISensor pSensor )
+        public Controle()
         {
-            _temperatureSensor = tSensor;
-            _pressureSensor = pSensor;
+            Estado = Estado.Desativado;
+            TemperatureSensor = new Sensor(TypeSensor.Temperature, this);
+            PressureSensor = new Sensor(TypeSensor.Pressure, this);
         }
         #endregion
 
         #region public Methods
-        public void alert( Type_Sensor type_sensor )
+        public void alert(TypeSensor typeSensor)
         {
-            if (type_sensor == Type_Sensor.Temperature)
-                open(_temperatureSensor);
-            else if (type_sensor == Type_Sensor.Pressure)
-                open(_pressureSensor);
+            switch (typeSensor)
+            {
+                case TypeSensor.Temperature:
+                    open(TemperatureSensor);
+                    break;
+                case TypeSensor.Pressure:
+                    open(PressureSensor);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(typeSensor), typeSensor, null);
+            }
         }
 
         public void close(ISensor n)
@@ -58,12 +42,12 @@ namespace TrabalhoTesteSoftware
 
         public bool disable()
         {
-            return _temperatureSensor.resetH() && _pressureSensor.resetH();
+            return TemperatureSensor.resetH() && PressureSensor.resetH();
         }
 
         public bool enable()
         {
-            return _temperatureSensor.setH() && _pressureSensor.setH();
+            return TemperatureSensor.setH() && PressureSensor.setH();
         }
 
         public bool getV(ISensor n)
@@ -73,15 +57,25 @@ namespace TrabalhoTesteSoftware
 
         public void open(ISensor n)
         {
-            
+
         }
 
-        public void reset(Type_Sensor type_sensor)
+        public void reset(TypeSensor type_sensor)
         {
-            if (type_sensor == Type_Sensor.Temperature)
-                close(_temperatureSensor);
-            else if (type_sensor == Type_Sensor.Pressure)
-                close(_pressureSensor);
+            if (type_sensor == TypeSensor.Temperature)
+                close(TemperatureSensor);
+            else if (type_sensor == TypeSensor.Pressure)
+                close(PressureSensor);
+        }
+
+        public void alert(ISensor n)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void reset(ISensor n)
+        {
+            throw new NotImplementedException();
         }
         #endregion
     }
