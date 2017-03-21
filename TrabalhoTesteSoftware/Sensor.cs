@@ -32,10 +32,10 @@ namespace TrabalhoTesteSoftware
             return result;
         }
 
-        public Sensor(TypeSensor typeSensor, Controle controle)
+        public Sensor(TypeSensor typeSensor, IControle controle)
         {
             TypeSensor = typeSensor;
-            Controle = controle;
+            Controle = (Controle)controle;
             IsEnabled = false;
             EnvironmentParameter = GenerateRandomParameter();
 
@@ -133,9 +133,9 @@ namespace TrabalhoTesteSoftware
         {
             //TODO: O que significa ser calibrado pela confiablidade???
             var result = false;
-            EnvironmentParameter = v;
+            EnvironmentParameter = v * Confiabilidade; //?????????????
 
-            if (v > CheckMaxParameterValue())
+            if (EnvironmentParameter > CheckMaxParameterValue())
             {
                 if (!getAlert())
                 {
@@ -143,7 +143,7 @@ namespace TrabalhoTesteSoftware
                     Controle.alert(this.TypeSensor);
                 }
             }
-            else if (v < CheckMaxParameterValue())
+            else if (EnvironmentParameter < CheckMaxParameterValue())
             {
                 if (getAlert())
                 {

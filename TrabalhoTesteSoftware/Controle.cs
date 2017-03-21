@@ -61,19 +61,22 @@ namespace TrabalhoTesteSoftware
             }
         }
 
-        public void open(Sensor n)
+        public void open(ISensor n)
         {
-            n.Valvula.Estado = EstadoValvula.Aberto;
+            var sensor = (Sensor)n;
+            sensor.Valvula.Estado = EstadoValvula.Aberto;
         }
 
-        public void close(Sensor n)
+        public void close(ISensor n)
         {
-            n.Valvula.Estado = EstadoValvula.Fechado;
+            var sensor = (Sensor)n;
+            sensor.Valvula.Estado = EstadoValvula.Fechado;
         }
 
-        public bool getV(Sensor n)
+        public bool getV(ISensor n)
         {
-            return true && n.Valvula.Estado == EstadoValvula.Aberto;
+            var sensor = (Sensor)n;
+            return true && sensor.Valvula.Estado == EstadoValvula.Aberto;
         }
         #endregion
     }

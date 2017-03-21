@@ -6,8 +6,8 @@
         bool disable();
         void alert(TypeSensor n);
         void reset(TypeSensor n);
-        void open(Sensor n);
-        void close(Sensor n);
-        bool getV(Sensor n);
+        void open(ISensor n);
+        void close(ISensor n);
+        bool getV(ISensor n);
     }
 }
