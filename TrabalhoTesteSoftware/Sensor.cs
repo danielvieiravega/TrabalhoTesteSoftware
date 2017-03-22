@@ -38,7 +38,6 @@ namespace TrabalhoTesteSoftware
             Controle = (Controle)controle;
             IsEnabled = false;
             EnvironmentParameter = GenerateRandomParameter();
-
         }
 
         /// <summary>

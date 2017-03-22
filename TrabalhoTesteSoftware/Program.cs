@@ -1,16 +1,14 @@
-﻿namespace TrabalhoTesteSoftware
+﻿using System;
+
+namespace TrabalhoTesteSoftware
 {
     class Program
     {
         static void Main(string[] args)
         {
             var controlador = new Controle();
-
-            while (true)
-            {
-                
-            }
-            
+            Console.WriteLine(controlador.Estado);
+            Console.ReadLine();
         }
     }
 }
