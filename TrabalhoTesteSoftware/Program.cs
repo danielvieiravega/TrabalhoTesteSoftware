@@ -4,13 +4,8 @@
     {
         static void Main(string[] args)
         {
-            var controlador = new Controle();
-
-            while (true)
-            {
-                
-            }
-            
+            System sys = new System();
+            sys.Run();
         }
     }
 }

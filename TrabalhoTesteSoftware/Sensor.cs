@@ -4,13 +4,16 @@ namespace TrabalhoTesteSoftware
 {
     public class Sensor : ISensor
     {
-        public Controle Controle  { get; private set; }
         public bool IsEnabled { get; private set; }
         public float Confiabilidade { get; private set; }
         public float EnvironmentParameter { get; private set; }
         public TypeSensor TypeSensor { get; private set; }
-        public Valvula Valvula { get; set; }
-        public bool InAlert { get; set; }
+        public Estado StateSensor { get; set; }
+
+        #region 
+        public event EventHandler<EventArgs> OnAlert;
+        public event EventHandler<EventArgs> OnReset;
+        #endregion
 
         private int GenerateRandomParameter()
         {
@@ -32,10 +35,9 @@ namespace TrabalhoTesteSoftware
             return result;
         }
 
-        public Sensor(TypeSensor typeSensor, Controle controle)
+        public Sensor( TypeSensor typeSensor )
         {
             TypeSensor = typeSensor;
-            Controle = controle;
             IsEnabled = false;
             EnvironmentParameter = GenerateRandomParameter();
 
@@ -47,7 +49,7 @@ namespace TrabalhoTesteSoftware
         /// <returns></returns>
         public bool getAlert()
         {
-            return true && (Controle.Estado == Estado.Alerta);
+            return StateSensor == Estado.Alerta ? true : false;
         }
 
         /// <summary>
@@ -139,16 +141,18 @@ namespace TrabalhoTesteSoftware
             {
                 if (!getAlert())
                 {
-                    Controle.Estado = Estado.Alerta;
-                    Controle.alert(this.TypeSensor);
+                    StateSensor = Estado.Alerta;
+                    if( OnAlert != null )
+                        OnAlert( StateSensor, new EventArgs() );
                 }
             }
             else if (v < CheckMaxParameterValue())
             {
                 if (getAlert())
                 {
-                    Controle.Estado = Estado.Desativado;
-                    Controle.alert(this.TypeSensor);
+                    StateSensor = Estado.Desativado;
+                    if( OnAlert != null )
+                        OnAlert( StateSensor, new EventArgs() );
                 }
             }
             else

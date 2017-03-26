@@ -6,7 +6,7 @@
 
         public Valvula()
         {
-                Estado = EstadoValvula.Fechado;
+            Estado = EstadoValvula.Fechado;
         }
     }
 }

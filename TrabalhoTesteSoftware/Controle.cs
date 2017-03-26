@@ -5,17 +5,26 @@ namespace TrabalhoTesteSoftware
     public class Controle : IControle
     {
         #region private variables
-        public Sensor TemperatureSensor { get; }
-        public Sensor PressureSensor { get; }
-        public Estado Estado { get; set; }
+        private Sensor _temparatureSensor;
+        private Sensor _pressureSensor;
+        private EstadoValvula _temperatureValve;
+        private EstadoValvula _pressureValve;
+        #endregion
+
+        #region public properties
+        public ISensor TemperatureSensor { get { return _temparatureSensor; } }
+        public ISensor PressureSensor { get { return _pressureSensor; } }
+        public EstadoValvula TemperatureValve { get { return _temperatureValve; } }
+        public EstadoValvula PressureValve { get { return _pressureValve; } }
         #endregion
 
         #region constructor
-        public Controle()
+        public Controle( Sensor tSensor, Sensor pSensor )
         {
-            Estado = Estado.Desativado;
-            TemperatureSensor = new Sensor(TypeSensor.Temperature, this);
-            PressureSensor = new Sensor(TypeSensor.Pressure, this);
+            _temparatureSensor = tSensor;
+            _pressureSensor = pSensor;         
+            _temperatureValve = EstadoValvula.Fechado;
+            _pressureValve = EstadoValvula.Fechado;
         }
         #endregion
 
@@ -30,50 +39,56 @@ namespace TrabalhoTesteSoftware
             return TemperatureSensor.resetH() && PressureSensor.resetH();
         }
 
-        public void alert(TypeSensor n)
+        public void alert( Sensor n)
         {
-            switch (n)
+            switch( n.TypeSensor )
             {
                 case TypeSensor.Temperature:
-                    open(TemperatureSensor);
+                    open( n );
                     break;
                 case TypeSensor.Pressure:
-                    open(PressureSensor);
+                    open( n );
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(n), n, null);
             }
         }
 
-        public void reset(TypeSensor typeSensor)
+        public void reset( Sensor n )
         {
-            Estado = Estado.Operacao;
-            switch (typeSensor)
+            switch( n.TypeSensor )
             {
                 case TypeSensor.Temperature:
-                    close(TemperatureSensor);
+                    close( n );
                     break;
                 case TypeSensor.Pressure:
-                    close(PressureSensor);
+                    close( n );
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(typeSensor), typeSensor, null);
+                    throw new ArgumentOutOfRangeException( nameof( n ), n, null );
             }
         }
 
-        public void open(Sensor n)
+        public void open( Sensor n )
         {
-            n.Valvula.Estado = EstadoValvula.Aberto;
+            if( n.TypeSensor == TypeSensor.Temperature )
+                _temperatureValve = EstadoValvula.Aberto;
+            else if( n.TypeSensor == TypeSensor.Pressure )
+                _pressureValve = EstadoValvula.Aberto;
         }
 
-        public void close(Sensor n)
+        public void close( Sensor n )
         {
-            n.Valvula.Estado = EstadoValvula.Fechado;
+            if( n.TypeSensor == TypeSensor.Temperature )
+                _temperatureValve = EstadoValvula.Fechado;
+            else if( n.TypeSensor == TypeSensor.Pressure )
+                _pressureValve = EstadoValvula.Fechado;
         }
 
-        public bool getV(Sensor n)
+        public bool getV( Sensor n )
         {
-            return true && n.Valvula.Estado == EstadoValvula.Aberto;
+            return n.TypeSensor == TypeSensor.Temperature ? TemperatureValve == EstadoValvula.Aberto :
+                PressureValve == EstadoValvula.Aberto;
         }
         #endregion
     }
