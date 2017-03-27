@@ -35,18 +35,21 @@ namespace TrabalhoTesteSoftware
             _ctrl.enable();
 
             _tSensor.setValue( 45 );
+            Console.WriteLine( _ctrl.getV( _tSensor ) );
+            _tSensor.setValue( 10 );
 
             Console.ReadKey();
         }
 
-        private void OnAlert( object sender, EventArgs e )
+        private void OnAlert( object sender, Event_Args_Sensor e )
         {
-            //  _ctrl.alert( //sensor );
+            _ctrl.alert( e.Sensor );
             Console.WriteLine( "OnAlert acionado" );
         }
 
-        private void OnReset( object sender, EventArgs e )
+        private void OnReset( object sender, Event_Args_Sensor e )
         {
+            _ctrl.reset( e.Sensor );
             Console.WriteLine( "OnReset acionado" );
         } 
         #endregion

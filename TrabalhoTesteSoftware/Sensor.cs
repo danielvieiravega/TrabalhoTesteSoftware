@@ -11,8 +11,8 @@ namespace TrabalhoTesteSoftware
         public Estado StateSensor { get; set; }
 
         #region 
-        public event EventHandler<EventArgs> OnAlert;
-        public event EventHandler<EventArgs> OnReset;
+        public event EventHandler<Event_Args_Sensor> OnAlert;
+        public event EventHandler<Event_Args_Sensor> OnReset;
         #endregion
 
         private int GenerateRandomParameter()
@@ -143,7 +143,7 @@ namespace TrabalhoTesteSoftware
                 {
                     StateSensor = Estado.Alerta;
                     if( OnAlert != null )
-                        OnAlert( StateSensor, new EventArgs() );
+                        OnAlert( StateSensor, new Event_Args_Sensor( this )  );
                 }
             }
             else if (v < CheckMaxParameterValue())
@@ -152,7 +152,7 @@ namespace TrabalhoTesteSoftware
                 {
                     StateSensor = Estado.Desativado;
                     if( OnAlert != null )
-                        OnAlert( StateSensor, new EventArgs() );
+                        OnAlert( StateSensor, new Event_Args_Sensor( this ) );
                 }
             }
             else
