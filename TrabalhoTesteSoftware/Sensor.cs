@@ -151,8 +151,8 @@ namespace TrabalhoTesteSoftware
                 if (getAlert())
                 {
                     StateSensor = Estado.Desativado;
-                    if( OnAlert != null )
-                        OnAlert( StateSensor, new Event_Args_Sensor( this ) );
+                    if( OnReset != null )
+                        OnReset( StateSensor, new Event_Args_Sensor( this ) );
                 }
             }
             else

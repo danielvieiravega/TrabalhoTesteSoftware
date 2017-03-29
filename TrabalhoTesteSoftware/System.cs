@@ -24,6 +24,9 @@ namespace TrabalhoTesteSoftware
             _tSensor = new Sensor( TypeSensor.Temperature );
             _pSensor = new Sensor( TypeSensor.Pressure );
             _tSensor.OnAlert += OnAlert;
+            _tSensor.OnReset += OnReset;
+            _pSensor.OnAlert += OnAlert;
+            _pSensor.OnReset += OnReset;
 
             _ctrl = new Controle( _tSensor, _pSensor );            
         }
@@ -36,7 +39,14 @@ namespace TrabalhoTesteSoftware
 
             _tSensor.setValue( 45 );
             Console.WriteLine( _ctrl.getV( _tSensor ) );
+            Console.WriteLine( _ctrl.getV( _pSensor ) );
+
             _tSensor.setValue( 10 );
+            _pSensor.setValue( 2000 );
+
+            Console.WriteLine( _ctrl.getV( _tSensor ) );
+            Console.WriteLine( _ctrl.getV( _pSensor ) );
+
 
             Console.ReadKey();
         }
