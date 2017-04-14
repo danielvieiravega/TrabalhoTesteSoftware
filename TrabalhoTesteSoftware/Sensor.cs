@@ -18,7 +18,8 @@ namespace TrabalhoTesteSoftware
         private int GenerateRandomParameter()
         {
             var result = 0;
-            switch (TypeSensor)
+
+            switch( TypeSensor )
             {
                 case TypeSensor.Temperature:
                     result = new Random().Next(Constants.MaxTemperatureValue);
@@ -111,7 +112,7 @@ namespace TrabalhoTesteSoftware
         /// <param name="r"></param>
         public void setR(float r)
         {
-            if ((r>0) && (r<=1))
+            if( ( r > 0 ) && ( r <= 1 ) )
             {
                 Confiabilidade = r;
             }
@@ -131,13 +132,17 @@ namespace TrabalhoTesteSoftware
         /// </summary>
         /// <param name="v"></param>
         /// <returns></returns>
-        public bool setValue(float v)
+        public bool setValue( float v )
         {
-            //TODO: O que significa ser calibrado pela confiablidade???
             var result = false;
-            EnvironmentParameter = v;
+            float fault_p = (float)( new Random().Next( Constants.ReliabilityMinValue, Constants.ReliabilityMaxValue * 10 ) ) / 10;
 
-            if (v > CheckMaxParameterValue())
+            if( Confiabilidade < fault_p )
+                v = EnvironmentParameter = TypeSensor == TypeSensor.Temperature ? Constants.MaxTemperatureValue + 1 : Constants.MaxPressureValure + 1;
+            else
+                v = EnvironmentParameter = v; /// seta o valor corretamente, pois a confiabilidade é maior que a probabilidade de falha
+
+            if( v > CheckMaxParameterValue() )
             {
                 if (!getAlert())
                 {
