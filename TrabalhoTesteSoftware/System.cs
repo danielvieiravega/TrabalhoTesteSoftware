@@ -10,7 +10,7 @@ namespace TrabalhoTesteSoftware
     public class System
     {
         #region constants
-        int MAX = 5;
+        const int MAX = 5;
         #endregion
 
         #region variables
