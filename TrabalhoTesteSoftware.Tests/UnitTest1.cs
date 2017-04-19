@@ -6,9 +6,48 @@ namespace TrabalhoTesteSoftware.Tests
     [TestClass]
     public class UnitTest1
     {
-        private ControlTestStates ControlState;
-        private SensorTestStates SensorState;
+        //private ControlTestStates ControlState;
+        //private SensorTestStates SensorState;
+        Controle Controle;
 
+        public UnitTest1()
+        {
+            //ControlState = ControlTestStates.q0;
+            //SensorState = SensorTestStates.q0;
+            Sensor temp = new Sensor(TypeSensor.Temperature);
+            Sensor pres = new Sensor(TypeSensor.Pressure);
+            Controle = new Controle(temp, pres);
+        }
+        
+        [TestMethod]
+        public void TestGetv1_getv2_false()
+        {
+            Assert.AreEqual(false, Controle.getV((Sensor)Controle.PressureSensor) && Controle.getV((Sensor)Controle.TemperatureSensor));
+            Assert.AreEqual(true, Controle.enable());
+        }
+
+        [TestMethod]
+        public void TestEnableTrue()
+        {
+            Assert.AreEqual(true, Controle.enable());
+        }
+
+        [TestMethod]
+        public void TestEnableFalse()
+        {
+            Controle.enable();
+            Assert.AreEqual(true, Controle.disable());
+        }
+
+        [TestMethod]
+        public void alert1true()
+        {
+            Controle.enable();
+            //Assert.AreEqual(true, Controle.PressureSensor.a));
+        }
+
+
+        /*
         public enum ControlTestStates
         {
             q0,
@@ -25,18 +64,10 @@ namespace TrabalhoTesteSoftware.Tests
             q2
         }
 
-        public UnitTest1()
-        {
-            ControlState = ControlTestStates.q0;
-            SensorState = SensorTestStates.q0;
-        }
-
         [TestMethod]
         public void ControleTest()
         {
-            Sensor temp = new Sensor(TypeSensor.Temperature);
-            Sensor pres = new Sensor(TypeSensor.Pressure);
-            Controle controle = new Controle(temp, pres);
+            
 
             switch (ControlState)
             {
@@ -77,6 +108,6 @@ namespace TrabalhoTesteSoftware.Tests
                     break;
             }
         }
-
+        */
     }
 }
