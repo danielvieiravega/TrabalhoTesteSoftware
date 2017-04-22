@@ -1,113 +1,75 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace TrabalhoTesteSoftware.Tests
 {
     [TestClass]
     public class UnitTest1
     {
-        //private ControlTestStates ControlState;
-        //private SensorTestStates SensorState;
-        Controle Controle;
-
+        System _sys;
+        
         public UnitTest1()
         {
-            //ControlState = ControlTestStates.q0;
-            //SensorState = SensorTestStates.q0;
-            Sensor temp = new Sensor(TypeSensor.Temperature);
-            Sensor pres = new Sensor(TypeSensor.Pressure);
-            Controle = new Controle(temp, pres);
+            _sys = new System();
         }
-        
+
+        #region Casos de testes estado Q0
         [TestMethod]
-        public void TestGetv1_getv2_false()
+        public void Test_Q0_GetV1_Q0()
         {
-            Assert.AreEqual(false, Controle.getV((Sensor)Controle.PressureSensor) && Controle.getV((Sensor)Controle.TemperatureSensor));
-            Assert.AreEqual(true, Controle.enable());
+            Assert.AreEqual( false, _sys.Ctrl.getV( _sys.T_Sensor) );
+            Assert.AreEqual(true, _sys.Ctrl.enable());
         }
 
         [TestMethod]
-        public void TestEnableTrue()
+        public void Test_Q0_GetV2_Q0()
         {
-            Assert.AreEqual(true, Controle.enable());
+            Assert.AreEqual( false, _sys.Ctrl.getV( _sys.T_Sensor ) );
+            Assert.AreEqual( true, _sys.Ctrl.enable() );
         }
 
         [TestMethod]
-        public void TestEnableFalse()
+        public void Test_Q0_Enable_Q1()
         {
-            Controle.enable();
-            Assert.AreEqual(true, Controle.disable());
+            Assert.AreEqual( true, _sys.Ctrl.enable() );
+            Assert.AreEqual( true, _sys.Ctrl.disable() );
+        }
+        #endregion
+
+        #region Casos de testes estado Q3
+        [TestMethod]
+        public void Test_Q3_Disable_Q0()
+        {
+            Assert.AreEqual( true, _sys.Ctrl.enable() );
+            Assert.AreEqual( true, _sys.Ctrl.disable() );
+            Assert.AreEqual( true, _sys.Ctrl.enable() );
         }
 
         [TestMethod]
-        public void alert1true()
+        public void Test_Q3_Alert1_Q4()
         {
-            Controle.enable();
-            //Assert.AreEqual(true, Controle.PressureSensor.a));
-        }
-
-
-        /*
-        public enum ControlTestStates
-        {
-            q0,
-            q3,
-            q4,
-            q5,
-            q6
-        }
-
-        public enum SensorTestStates
-        {
-            q0,
-            q1,
-            q2
+            Assert.AreEqual( true, _sys.Ctrl.enable() );
+            _sys.Ctrl.alert( _sys.T_Sensor );
+            Assert.AreEqual( true, _sys.Ctrl.getV( _sys.T_Sensor ) );
+            _sys.Ctrl.alert( _sys.P_Sensor );
+            _sys.Ctrl.reset( _sys.T_Sensor );
+            Assert.AreEqual( true, _sys.Ctrl.getV(_sys.P_Sensor) && !_sys.Ctrl.getV(_sys.T_Sensor) );
         }
 
         [TestMethod]
-        public void ControleTest()
+        public void Test_Q3_Alert1_Q5()
         {
-            
-
-            switch (ControlState)
-            {
-                case ControlTestStates.q0:
-                    Assert.AreEqual(false, controle.getV((Sensor)controle.PressureSensor));
-                    Assert.AreEqual(false, controle.getV((Sensor)controle.TemperatureSensor));
-                    ControlState = ControlTestStates.q3;
-
-                    break;
-
-                case ControlTestStates.q3:
-                    Assert.AreEqual(true, controle.enable());
-
-                    break;
-                case ControlTestStates.q4:
-                    break;
-                case ControlTestStates.q5:
-                    break;
-                case ControlTestStates.q6:
-                    break;
-                default:
-                    break;
-            }
+            Assert.AreEqual( true, _sys.Ctrl.enable() );
+            _sys.Ctrl.alert( _sys.P_Sensor );
+            Assert.AreEqual( true, _sys.Ctrl.getV( _sys.P_Sensor ) );
+            _sys.Ctrl.alert( _sys.T_Sensor );
+            _sys.Ctrl.reset( _sys.P_Sensor );
+            Assert.AreEqual( true, _sys.Ctrl.getV( _sys.T_Sensor ) && !_sys.Ctrl.getV( _sys.P_Sensor ) );
         }
+        #endregion
 
-        [TestMethod]
-        public void SensorTest()
-        {
-            switch (SensorState)
-            {
-                case SensorTestStates.q0:
-                    break;
-                case SensorTestStates.q1:
-                    break;
-                case SensorTestStates.q2:
-                    break;
-                default:
-                    break;
-            }
-        }
-        */
+        #region Casos de testes estado Q4
+
+        #endregion
     }
 }

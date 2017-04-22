@@ -23,7 +23,9 @@ namespace TrabalhoTesteSoftware
         #endregion
 
         #region properties
-
+        public Controle Ctrl { get { return _ctrl; } }
+        public Sensor T_Sensor { get { return _tSensor; } }
+        public Sensor P_Sensor { get { return _pSensor; } }
         #endregion
 
         #region constructor
