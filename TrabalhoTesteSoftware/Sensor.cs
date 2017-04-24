@@ -134,13 +134,12 @@ namespace TrabalhoTesteSoftware
         /// <returns></returns>
         public bool setValue( float v )
         {
-            var result = false;
             float fault_p = (float)( new Random().Next( Constants.ReliabilityMinValue, Constants.ReliabilityMaxValue * 10 ) ) / 10;
 
             if( Confiabilidade < fault_p )
                 v = EnvironmentParameter = TypeSensor == TypeSensor.Temperature ? Constants.MaxTemperatureValue + 1 : Constants.MaxPressureValure + 1;
             else
-                v = EnvironmentParameter = v; /// seta o valor corretamente, pois a confiabilidade é maior que a probabilidade de falha
+                EnvironmentParameter = v; /// seta o valor corretamente, pois a confiabilidade é maior que a probabilidade de falha
 
             if( v > CheckMaxParameterValue() )
             {
@@ -160,12 +159,8 @@ namespace TrabalhoTesteSoftware
                         OnReset( StateSensor, new Event_Args_Sensor( this ) );
                 }
             }
-            else
-            {
-                result = true;
-            }
 
-            return result;
+            return true;
         }
 
         private int CheckMaxParameterValue()
