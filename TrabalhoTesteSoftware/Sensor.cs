@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace TrabalhoTesteSoftware
 {
@@ -134,12 +135,19 @@ namespace TrabalhoTesteSoftware
         /// <returns></returns>
         public bool setValue( float v )
         {
-            float fault_p = (float)( new Random().Next( Constants.ReliabilityMinValue, Constants.ReliabilityMaxValue * 10 ) ) / 10;
+            bool result = false;
+
+            float fault_p = (float)( new Random().Next( Constants.ReliabilityMinValue, Constants.ReliabilityMaxValue * 100 ) ) / 100;
+            Thread.Sleep( 200 );
+            Console.WriteLine( string.Format( "Confiabilidade sensor: {0} | Probabilidade de falha: {1}", Confiabilidade, fault_p ) );
 
             if( Confiabilidade < fault_p )
                 v = EnvironmentParameter = TypeSensor == TypeSensor.Temperature ? Constants.MaxTemperatureValue + 1 : Constants.MaxPressureValure + 1;
             else
+            {
                 EnvironmentParameter = v; /// seta o valor corretamente, pois a confiabilidade é maior que a probabilidade de falha
+                result = true;
+            }
 
             if( v > CheckMaxParameterValue() )
             {
@@ -160,7 +168,7 @@ namespace TrabalhoTesteSoftware
                 }
             }
 
-            return true;
+            return result;
         }
 
         private int CheckMaxParameterValue()
