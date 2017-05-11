@@ -138,7 +138,7 @@ namespace TrabalhoTesteSoftware
             bool result = false;
 
             float fault_p = (float)( new Random().Next( Constants.ReliabilityMinValue, Constants.ReliabilityMaxValue * 100 ) ) / 100;
-            Thread.Sleep( 200 );
+            Thread.Sleep( 100 );
             Console.WriteLine( string.Format( "Confiabilidade sensor: {0} | Probabilidade de falha: {1}", Confiabilidade, fault_p ) );
 
             if( Confiabilidade < fault_p )
